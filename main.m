@@ -83,6 +83,8 @@ SOL_q2a_y = y_new;
 
 %% Question 2b
 
+% Assume Ideal behavior, fully gas, calculate Dew T and composition
+
 % P = 1atm = 101.325 kPa
 P = 101.325;
 epsilon = 1e-6;
@@ -145,6 +147,11 @@ SOL_q2b_x = x_new;
 
 
 %% Problem 3
+% - Assume non-ideal behavior, fully liquid, calculate Bubble T and
+%  composition in the gas phase.
+% - Assume non-ideal behavior, fully gas and calculate Dew T and 
+% composition in the liquid phase
+
 
 %all values from table B.1 in 7th ed
            %tol    Benze  Cyclo  Chloro
@@ -267,8 +274,12 @@ end
 SOL_q3_dewT = T2_dew;
 SOL_q3_x = x_dew;
 
-%% Problem 4
-%all values from table B.1 in 7th ed
+%% Problem 4: Vapor and Liquid composition
+% Assume system at 373K and 1 atm, calculate the mole fraction of the
+% liquid and vapor phase, and their compositions
+
+
+%all values from table B.1 in 7th ed textbook
            %tol    Benze  Cyclo  Chloro
 omega_pure  = [0.262, 0.210, 0.210, 0.250];
 Tc_pure = [ 591.8, 562.2, 553.6, 632.4]; %in kelvin
@@ -397,7 +408,8 @@ SOL_q4_x = x_new;
 SOL_q4_V = V_4;
 SOL_q4_L = 1 - V_4;
 
-%% Problem 5
+%% Problem 5:
+% Calculate T and P given such that the liquid phase composition of toluene y1=0.10
 
 eps = 1e-6; %termination criteria
 
@@ -458,6 +470,8 @@ SOL_q5_y = y;
 
 %% Functions
 
+% Caluclate Psat and Tsat using Antoine equation. 
+
 function P_sat = Cal_P(T,n)
 % Input: Temperature(T in C degree) and number of species (n)
 % Output: P_sat(kPa) for each species
@@ -501,6 +515,9 @@ T_sat = zeros(1,n);
     end
 
 end
+
+
+% Calculate gamma using UNIFAC
 
 function gamma = UNIFAC(T, x)
 % Input: Temp(T in K), mole fraction (x)
@@ -605,6 +622,8 @@ gamma = gamma_C.*gamma_R;
 
 
 end
+
+% Calculate bigPhi
 
 function [big_phi] = bigPhi_calc(P,Psat,T,y,omega_pure,Tc_pure,Zc_pure,Vc_pure)
 % Calculate big Phi
